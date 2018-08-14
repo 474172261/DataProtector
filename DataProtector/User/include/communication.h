@@ -1,0 +1,49 @@
+#pragma once
+
+#include <windows.h>
+#include <fltuser.h>
+
+#define MSG_PATH_MAX_SIZE   400
+
+#define REPLY_CODE_NONE 0
+#define REPLY_CODE_BACKUPDONE 1
+#define REPLY_CODE_STOPPROCESS 2
+
+#define HANDLE_OPERATION_DELETE 1
+#define HANDLE_OPERATION_OVERWRITE 2
+#define HANDLE_OPERATION_SETINFO_RENAME 3
+#define HANDLE_OPERATION_SETINFO_DELETE 4
+
+#pragma pack(1)
+
+typedef struct _PROTECTOR_NOTIFICATION {
+
+	UINT32 pid;
+	UINT32 operation;
+	WCHAR fileName[MSG_PATH_MAX_SIZE];
+	WCHAR imgName[MSG_PATH_MAX_SIZE];
+
+} PROTECTOR_NOTIFICATION, *PPROTECTOR_NOTIFICATION;
+
+typedef struct _PROTECTOR_REPLY {
+
+	UINT32 code;
+
+} PROTECTOR_REPLY, *PPROTECTOR_REPLY;
+
+
+typedef struct {
+
+	FILTER_MESSAGE_HEADER MessageHeader;
+	PROTECTOR_NOTIFICATION Data;
+
+} SENDMSG_STRUCT;
+
+typedef struct {
+
+	FILTER_REPLY_HEADER Header;
+	PROTECTOR_REPLY Data;
+
+} REPLY_STRUCT;
+
+#pragma pack()

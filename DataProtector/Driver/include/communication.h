@@ -1,0 +1,40 @@
+#pragma once
+
+#include <NTDDk.h>
+
+#define MSG_PATH_MAX_SIZE   400
+#define GUARD_RANSOMWARE_PORT_NAME L"\\MiniFilter_Guard_Ransomware"
+
+
+#define REPLY_CODE_NONE 0
+#define REPLY_CODE_BACKUPDONE 1
+#define REPLY_CODE_STOPPROCESS 2
+
+#define HANDLE_OPERATION_DELETE 1
+#define HANDLE_OPERATION_OVERWRITE 2
+#define HANDLE_OPERATION_SETINFO_RENAME 3
+#define HANDLE_OPERATION_SETINFO_DELETE 4
+
+#pragma pack(1)
+typedef struct _PROTECTOR_NOTIFICATION {
+
+	UINT32 pid;
+	UINT32 operation;
+	WCHAR fileName[MSG_PATH_MAX_SIZE];
+	WCHAR imgName[MSG_PATH_MAX_SIZE];
+
+} PROTECTOR_NOTIFICATION, *PPROTECTOR_NOTIFICATION;
+
+typedef struct _PROTECTOR_REPLY {
+
+	UINT32 code;
+
+} PROTECTOR_REPLY, *PPROTECTOR_REPLY;
+
+#pragma pack()
+
+extern PFLT_PORT gpClientPort;
+extern PFLT_PORT gpServerPort;
+
+NTSTATUS InitCommunication(VOID);
+VOID UninitCommunication();
